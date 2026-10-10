@@ -1,0 +1,17 @@
+# Use only in an isolated, owned GitHub repository and Azure DevOps project.
+# The project must keep fork secrets disabled. A distinct owned fork identity is
+# required to exercise the actual lower-authority actor.
+trigger: none
+pr:
+  branches:
+    include:
+    - main
+pool:
+  vmImage: windows-latest
+steps:
+- checkout: self
+- task: PowerShell@1
+  displayName: Harmless source-endpoint presence check
+  inputs:
+    scriptType: filePath
+    scriptName: '$(Build.SourcesDirectory)\ci\probe.ps1'
